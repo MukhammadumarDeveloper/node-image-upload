@@ -1,0 +1,35 @@
+<style>
+    .images {
+        margin-top: 15px;
+    }
+
+    .images>img {
+        margin-right: 7px;
+        margin-top: 7px;
+    }
+</style>
+<h1>File upload</h1>
+
+<form action="/upload" method="post" enctype="multipart/form-data">
+    <input type="file" name="avatar" multiple>
+    <button>Submit</button> <br>
+
+    <div class="images"></div>
+
+    <script>
+        const loadImages = async () => {
+            const response = await fetch('http://localhost:3001/api/images')
+                .then(response => response.json())
+            const imagesElement = document.querySelector('.images');
+            imagesElement.innerHTML = '';
+            response.forEach(image => {
+                const img = document.createElement('img');
+                img.src = image.filePath;
+                img.height = '200';
+                imagesElement.append(img);
+            });
+        }
+
+        window.onload = loadImages;
+    </script>
+</form>
